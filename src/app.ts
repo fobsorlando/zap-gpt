@@ -4,6 +4,7 @@ import bodyParser from 'body-parser';
 import dotenv from "dotenv"
 import cors from "cors"
 import { sendWhatsMessage } from './services/twilio';
+import { getOpenAICompletion } from "./services/openia";
 
 
 
@@ -32,11 +33,13 @@ app.post("/chat/send", async (req , res)=>{
 
 app.post('/chat/receive', async   (req , res)=>{ 
   const twilioRequestBody = req.body
-  console.log ('BODY TW',twilioRequestBody)
   const messageBody = twilioRequestBody.Body
   const to = twilioRequestBody.From 
   try {
-    await sendWhatsMessage(to, messageBody)
+    const completion = await getOpenAICompletion(messageBody)
+
+    await sendWhatsMessage(to, completion)
+
     res.status(200).json({success: true, messageBody})
   }catch  (error) { 
     res.status(500).json({success: false,error})
