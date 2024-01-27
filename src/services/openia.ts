@@ -36,8 +36,7 @@ export const getOpenAICompletion = async (input: string): Promise<string> => {
     try {
         //const completion = await openai.createChatCompletion ({    -- antigo
         const completion = await openai.chat.completions.create({ // -- novo
-
-            model: 'gpt-3.5-turbo ',
+            model:"gpt-3.5-turbo",
             messages: [{role: "user", content: input}]
         })
         return completion.choices[0].message?.content as string
