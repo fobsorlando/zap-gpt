@@ -11,6 +11,7 @@ const client = twilio(SID,TOKEN)
 
              
 export const sendWhatsMessage = async (to: string, body: string ): Promise<void> => {
+    console.log(to)
     try {
         await client.messages.create ({
             to: to,
